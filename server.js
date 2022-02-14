@@ -4,11 +4,12 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
 const morgan = require('morgan');
-
+require('dotenv').config();
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
+
 console.log(process.env.POSTGRES_URI);
 const db = knex({
   // connect to your own database here:
@@ -17,13 +18,15 @@ const db = knex({
 });
 
 const app = express();
+
 app.use(cors());
 app.use(express.json()); // latest version of exressJS now comes with Body-Parser!
 app.use(morgan('combined'));
+
 app.get('/', (req, res) => {
   res.send(db.users);
 });
-app.post('/signin', signin.handleSignin(db, bcrypt));
+app.post('/signin', signin.signinAuthentication(db, bcrypt));
 app.post('/register', (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
 });
