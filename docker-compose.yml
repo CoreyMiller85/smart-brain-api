@@ -11,6 +11,7 @@ services:
     environment:
       - POSTGRES_URI=postgres://sally:secret@postgres:5432/smart-brain-docker
       - REDIS_URI=redis://redis:6379
+      - CLARIFAI_API_KEY=7c653e02e59a4cea83f860ec71beaf9a
     ports:
       - 3000:3000
     volumes:
